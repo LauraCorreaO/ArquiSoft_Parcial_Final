@@ -3,7 +3,11 @@ package model.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @NoArgsConstructor
 @Data
 @Entity
