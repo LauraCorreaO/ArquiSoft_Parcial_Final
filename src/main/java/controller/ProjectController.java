@@ -5,6 +5,8 @@ import model.DTOs.ProjectResponseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +24,17 @@ public class ProjectController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
     @PostMapping
-    public ResponseEntity<ProjectResponseDTO> createProject(@RequestBody ProjectDTO projectDTO) {
+    public ResponseEntity<EntityModel<ProjectResponseDTO>> createProject(@RequestBody ProjectDTO projectDTO) {
         ProjectResponseDTO responseDTO = createProjectService.createProject(projectDTO);
 
-        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+        EntityModel<ProjectResponseDTO> projectResource = EntityModel.of(responseDTO);
+
+        projectResource.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ProjectController.class)
+                .createProject(projectDTO)).withSelfRel());
+
+        projectResource.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ProjectController.class)
+                .createProject(projectDTO)).withRel("update"));
+
+        return new ResponseEntity<>(projectResource, HttpStatus.CREATED);
     }
 }
