@@ -1,6 +1,6 @@
 package model.DTOs;
 
-public class ProyectResponseDTO {
+public class ProjectResponseDTO {
     private String id;
     private String project_name;
     private String description;

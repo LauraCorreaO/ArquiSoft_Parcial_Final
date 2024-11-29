@@ -1,6 +1,6 @@
 package model.DTOs;
 
-public class ProyectDTO {
+public class ProjectDTO {
     private String project_name;
     private String description;
 }
